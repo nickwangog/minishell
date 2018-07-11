@@ -99,5 +99,7 @@ int					ft_linedigit(char *s);
 int					ft_countwords(char *str, char sep);
 void				ft_print2darray(char **array);
 char				**ft_arraydup(char **old);
+int					ft_isalphanumeric(char *s);
+char				**ft_addto2darray(char **old, char *s);
 
 #endif

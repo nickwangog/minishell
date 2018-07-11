@@ -25,6 +25,7 @@ int			main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	ft_bzero(&msh, sizeof(t_msh));
+	msh.environ = envp;
 	while (1)
 	{
 		// signal(SIGINT, main_signal_catcher);
@@ -32,7 +33,6 @@ int			main(int argc, char **argv, char **envp)
 		// can print current directory as bonus
 		if ((msh.line = read_input()))
 		{
-			msh.environ = envp;
 			parse_line(&msh);
 			parse_path(&msh);
 			minishell(&msh);

@@ -20,9 +20,7 @@ void		run_echo(t_msh *msh)
 	while (msh->split[i] && msh->split[i] != NULL)
 	{
 		if (msh->split[i][0] == '$')
-			//check environment for argument minus $
-			//print
-			// if doesnt exist continue
+			check_var(msh->environ, msh->split[i]);
 		else
 			ft_putstr(msh->split[i]);
 		ft_putchar(' ');
@@ -48,4 +46,9 @@ void		run_cd(t_msh *msh)
 		chdir("/nfs/2017/n/nwang/");
 	else if (msh->split[2] != NULL)
 		ft_printf("cd: string not in pwd: %s\n", msh->split[1]);
+}
+
+void		check_var(t_msh *msh, char *var)
+{
+	
 }

@@ -43,6 +43,7 @@ typedef struct				s_msh
 	char					**environ;
 	char					**paths;
 	char					*executable;
+	char					*var;
 }							t_msh;
 
 char        *read_input(void);
@@ -53,5 +54,7 @@ void        run_echo(t_msh *msh);
 void        run_pwd(void);
 void        parse_path(t_msh *msh);
 void        run_cd(t_msh *msh);
+void		run_setenv(t_msh *msh);
+void		run_unsetenv(t_msh *msh);
 
 #endif
