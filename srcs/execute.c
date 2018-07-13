@@ -20,7 +20,7 @@ void		run_echo(t_msh *msh)
 	while (msh->split[i] && msh->split[i] != NULL)
 	{
 		if (msh->split[i][0] == '$')
-			check_var(msh->environ, msh->split[i]);
+			check_var(msh, msh->split[i]);
 		else
 			ft_putstr(msh->split[i]);
 		ft_putchar(' ');
@@ -40,15 +40,60 @@ void		run_pwd(void)
 
 void		run_cd(t_msh *msh)
 {
-	if (msh->split[1] != NULL)
-		chdir(msh->split[1]);
 	if (msh->split[1] == NULL)
 		chdir("/nfs/2017/n/nwang/");
+	else if (!ft_strcmp(msh->split[1], "~"))
+		chdir("/nfs/2017/n/nwang/");
+	else if (msh->split[1] != NULL)
+		chdir(msh->split[1]);
 	else if (msh->split[2] != NULL)
 		ft_printf("cd: string not in pwd: %s\n", msh->split[1]);
 }
 
+char		*rm_dollar(char *s)
+{
+	int i;
+	int j;
+
+	i = 1;
+	j = 0;
+	while (s[i])
+	{
+		s[j] = s[i];
+		i++;
+		j++;
+	}
+	s[j] = '\0';
+	return(s);
+}
+
 void		check_var(t_msh *msh, char *var)
 {
-	
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (!msh->environ)
+	{
+		ft_putstr("Error");
+		return ;
+	}
+	var = rm_dollar(var);
+	while (msh->environ[i] != NULL)
+	{
+		if (!ft_strncmp(msh->environ[i], var, ft_strlen(var)))
+		{
+			while(msh->environ[i][j] != '=')
+				j++;
+			j++;
+			while(msh->environ[i][j])
+			{
+				ft_putchar(msh->environ[i][j]);
+				j++;
+			}
+			return ;
+		}
+		i++;
+	}
 }

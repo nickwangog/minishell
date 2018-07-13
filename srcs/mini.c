@@ -16,7 +16,7 @@ int					check_builtins2(t_msh *msh)
 {
 	if (!ft_strcmp(ft_strlowcase(msh->split[0]), "unsetenv"))
 	{
-		run_unsetenv(msh, 1);
+		run_unsetenv(msh, 1, 0);
 		return (1);
 	}
 	else if (!ft_strcmp(ft_strlowcase(msh->split[0]), "env"))

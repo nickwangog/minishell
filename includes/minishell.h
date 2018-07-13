@@ -55,6 +55,7 @@ void        run_pwd(void);
 void        parse_path(t_msh *msh);
 void        run_cd(t_msh *msh);
 void		run_setenv(t_msh *msh);
-void		run_unsetenv(t_msh *msh);
+void		run_unsetenv(t_msh *msh, int i, int j);
+void		check_var(t_msh *msh, char *var);
 
 #endif

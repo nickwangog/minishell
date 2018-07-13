@@ -42,18 +42,6 @@ void		parse_path(t_msh *msh)
 
 void		parse_line(t_msh *msh)
 {
-	// int		i;
-	// int		count;
-	// i = 0;
-	// count = ft_countwords(msh->line, ' ');
-	// if (!(msh->split = (char **)malloc(sizeof(char *) * count)))
-	// 	minierror("Split failed to allocate");
-	// while (i + 1 < count)
-	// {
-	// 	if (!(msh->split[i] = (char *)malloc(sizeof(char) * 900)))
-	// 		minierror("Split failed to allocate");
-	// 	i++;
-	// }
 	msh->split = ft_strsplit(msh->line, ' ');
 }
 

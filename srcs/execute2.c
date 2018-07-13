@@ -40,7 +40,18 @@ void		run_setenv(t_msh *msh)
 	}
 }
 
-void		run_unsetenv(t_msh *msh, int i)
+void		remove_array(t_msh *msh, int i, int j)
+{
+	while (msh->environ[i] != NULL)
+		i++;
+	while (j < i)
+	{
+		msh->environ[j] = msh->environ[j + 1];
+		j++;
+	}
+}
+
+void		run_unsetenv(t_msh *msh, int i, int j)
 {
 	if (msh->split[1] == NULL)
 	{
@@ -49,10 +60,14 @@ void		run_unsetenv(t_msh *msh, int i)
 	}
     while (msh->split[i])
     {
-        msh->var = ft_strcat(msh->split[1], "=");
-        msh->var = ft_strcat(msh->var, msh->split[2]);
-        msh->environ = ft_addto2darray(msh->environ, msh->var);
-        i++
+		j = 0;
+		while (msh->environ[j] != NULL)
+		{
+			if (!ft_strncmp(msh->environ[j], msh->split[i], ft_strlen(msh->split[i])))
+				remove_array(msh, 0, j);
+			j++;
+		}
+		i++;
 	}
 }
 
