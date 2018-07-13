@@ -42,6 +42,7 @@ void		parse_path(t_msh *msh)
 
 void		parse_line(t_msh *msh)
 {
+	msh->line = ft_strctrim(msh->line, '\t');
 	msh->split = ft_strsplit(msh->line, ' ');
 }
 

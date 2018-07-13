@@ -20,7 +20,7 @@ void		run_echo(t_msh *msh)
 	while (msh->split[i] && msh->split[i] != NULL)
 	{
 		if (msh->split[i][0] == '$')
-			check_var(msh, msh->split[i]);
+			check_var(msh, msh->split[i], 0, 0);
 		else
 			ft_putstr(msh->split[i]);
 		ft_putchar(' ');
@@ -64,16 +64,11 @@ char		*rm_dollar(char *s)
 		j++;
 	}
 	s[j] = '\0';
-	return(s);
+	return (s);
 }
 
-void		check_var(t_msh *msh, char *var)
+void		check_var(t_msh *msh, char *var, int i, int j)
 {
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
 	if (!msh->environ)
 	{
 		ft_putstr("Error");
@@ -84,10 +79,10 @@ void		check_var(t_msh *msh, char *var)
 	{
 		if (!ft_strncmp(msh->environ[i], var, ft_strlen(var)))
 		{
-			while(msh->environ[i][j] != '=')
+			while (msh->environ[i][j] != '=')
 				j++;
 			j++;
-			while(msh->environ[i][j])
+			while (msh->environ[i][j])
 			{
 				ft_putchar(msh->environ[i][j]);
 				j++;

@@ -58,16 +58,16 @@ void		run_unsetenv(t_msh *msh, int i, int j)
 		ft_putstr("setenv: Too few arguments.\n");
 		return ;
 	}
-    while (msh->split[i])
-    {
+	while (msh->split[i])
+	{
 		j = 0;
 		while (msh->environ[j] != NULL)
 		{
-			if (!ft_strncmp(msh->environ[j], msh->split[i], ft_strlen(msh->split[i])))
+			if (!ft_strncmp(msh->environ[j], msh->split[i]
+				, ft_strlen(msh->split[i])))
 				remove_array(msh, 0, j);
 			j++;
 		}
 		i++;
 	}
 }
-

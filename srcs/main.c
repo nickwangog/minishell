@@ -18,6 +18,20 @@ void		minierror(char *s)
 	exit(1);
 }
 
+void		cwd_name(t_msh *msh)
+{
+	int i;
+
+	i = 0;
+	msh->cwd = NULL;
+	msh->cwd = getcwd(msh->cwd, sizeof(msh->cwd));
+	msh->dirpath = ft_strsplit(msh->cwd, '/');
+	while (msh->dirpath[i] != NULL)
+		i++;
+	i--;
+	msh->cwd = msh->dirpath[i];
+}
+
 int			main(int argc, char **argv, char **envp)
 {
 	t_msh	msh;
@@ -28,9 +42,8 @@ int			main(int argc, char **argv, char **envp)
 	msh.environ = envp;
 	while (1)
 	{
-		// signal(SIGINT, main_signal_catcher);
-		ft_printf(C_CYN"minishell $> "C_RESET);
-		// can print current directory as bonus
+		cwd_name(&msh);
+		ft_printf(C_CYN"%s "C_BLU"minishell "C_YEL"$> "C_RESET, msh.cwd);
 		if ((msh.line = read_input()))
 		{
 			parse_line(&msh);

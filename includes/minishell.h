@@ -36,26 +36,28 @@
 # define C_WHT		"\x1b[37m"
 # define C_RESET	"\x1b[0m"
 
-typedef struct				s_msh
+typedef struct		s_msh
 {
-	char					*line;
-	char					**split;
-	char					**environ;
-	char					**paths;
-	char					*executable;
-	char					*var;
-}							t_msh;
+	char			*line;
+	char			**split;
+	char			**environ;
+	char			**paths;
+	char			*executable;
+	char			*var;
+	char			*cwd;
+	char			**dirpath;
+}					t_msh;
 
-char        *read_input(void);
-void    	minierror(char *s);
-void        parse_line(t_msh *msh);
-void        minishell(t_msh *msh);
-void        run_echo(t_msh *msh);
-void        run_pwd(void);
-void        parse_path(t_msh *msh);
-void        run_cd(t_msh *msh);
-void		run_setenv(t_msh *msh);
-void		run_unsetenv(t_msh *msh, int i, int j);
-void		check_var(t_msh *msh, char *var);
+char				*read_input(void);
+void				minierror(char *s);
+void				parse_line(t_msh *msh);
+void				minishell(t_msh *msh);
+void				run_echo(t_msh *msh);
+void				run_pwd(void);
+void				parse_path(t_msh *msh);
+void				run_cd(t_msh *msh);
+void				run_setenv(t_msh *msh);
+void				run_unsetenv(t_msh *msh, int i, int j);
+void				check_var(t_msh *msh, char *var, int i, int j);
 
 #endif
