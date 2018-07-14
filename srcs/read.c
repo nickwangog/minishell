@@ -12,16 +12,14 @@
 
 #include "minishell.h"
 
-void		parse_path(t_msh *msh)
+void		parse_path(t_msh *msh, int i, int j)
 {
-	int		i;
-	int		j;
-
-	j = 0;
-	i = 0;
+	if (msh->paths)
+		ft_cleararray(msh->paths);
+	msh->paths = NULL;
 	while (msh->environ[i] != NULL)
 	{
-		if (msh->environ[i][0] != 'P' && msh->environ[i][1] != 'A')
+		if ((ft_strncmp(msh->environ[i], "PATH", 4)))
 			i++;
 		else
 		{
@@ -29,6 +27,8 @@ void		parse_path(t_msh *msh)
 			break ;
 		}
 	}
+	if (!msh->paths)
+		return ;
 	i = 0;
 	while (msh->paths[0][i] != '/' && msh->paths[0][i])
 	{
@@ -38,10 +38,24 @@ void		parse_path(t_msh *msh)
 	i = 0;
 	while (msh->paths[0][j])
 		msh->paths[0][i++] = msh->paths[0][j++];
+	msh->paths[0][i] = '\0';
 }
 
 void		parse_line(t_msh *msh)
 {
+	// int		i;
+	// int		count;
+
+	// i = 0;
+	// count = ft_countwords(msh->line, ' ');
+	// if (!(msh->split = (char **)malloc(sizeof(char *) * count)))
+	// 	minierror("Split failed to allocate");
+	// while (i + 1 < count)
+	// {
+	// 	if (!(msh->split[i] = (char *)malloc(sizeof(char) * 900)))
+	// 		minierror("Split failed to allocate");
+	// 	i++;
+	// }
 	msh->line = ft_strctrim(msh->line, '\t');
 	msh->split = ft_strsplit(msh->line, ' ');
 }

@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_env.c                                            :+:      :+:    :+:   */
+/*   ft_cleararray.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bpierce <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nwang <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/11 19:44:51 by bpierce           #+#    #+#             */
-/*   Updated: 2018/01/23 14:59:48 by bpierce          ###   ########.fr       */
+/*   Created: 2018/07/13 15:04:21 by nwang             #+#    #+#             */
+/*   Updated: 2018/07/13 15:45:09 by nwang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_minishell.h"
+#include "libft.h"
 
-int		builtin_env(t_mini *m)
+void		ft_cleararray(char **s)
 {
-	if (!m || !m->environ)
-		return (0);
-	ft_arrayprint(m->environ);
-	return (1);
+	int		i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i] != NULL)
+	{
+		free(s[i]);
+		i++;
+	}
 }

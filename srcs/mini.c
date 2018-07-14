@@ -24,12 +24,14 @@ int					check_builtins2(t_msh *msh)
 		ft_print2darray(msh->environ);
 		return (1);
 	}
-	else if (!ft_strcmp(ft_strlowcase(msh->split[0]), "exit"))
-		exit(1);
-	else if (!ft_strcmp(ft_strlowcase(msh->split[0]), "pwd"))
+	else if (msh->split[0][0] == '/')
 	{
-		run_pwd();
-		return (1);
+		if (check_dir(msh, msh->split[0]))
+		{
+			msh->relative = msh->split[0];
+			msh->check_rel = 1;
+		}
+		return (0);
 	}
 	else
 		return (0);
@@ -52,17 +54,31 @@ int					check_builtins(t_msh *msh)
 		run_setenv(msh);
 		return (1);
 	}
+	else if (!ft_strcmp(ft_strlowcase(msh->split[0]), "exit"))
+		exit(1);
+	else if (!ft_strcmp(ft_strlowcase(msh->split[0]), "pwd"))
+	{
+		run_pwd();
+		return (1);
+	}
 	else
 		return (check_builtins2(msh));
 }
 
-void				run_exec(t_msh *msh, int i, DIR *temp)
+void				run_exec(t_msh *msh, int i)
 {
 	int			status;
 	pid_t		child;
 
-	msh->executable = ft_strcat(msh->paths[i], "/");
-	msh->executable = ft_strcat(msh->executable, msh->split[0]);
+	if (msh->paths != NULL && msh->check_rel == 0)
+	{
+		msh->executable = ft_strcat(msh->paths[i], "/");
+		msh->executable = ft_strcat(msh->executable, msh->split[0]);
+	}
+	else if (msh->check_rel)
+		msh->executable = msh->relative;
+	else
+		return ;
 	child = fork();
 	if (child == -1)
 		minierror("fork failed");
@@ -74,18 +90,18 @@ void				run_exec(t_msh *msh, int i, DIR *temp)
 	else
 	{
 		waitpid(child, &status, 0);
-		closedir(temp);
 		return ;
 	}
 }
 
-int					check_exec(t_msh *msh, int i)
+int					check_exec(t_msh *msh, int i, DIR *temp)
 {
-	DIR				*temp;
 	struct dirent	*dir;
 
 	temp = NULL;
 	dir = NULL;
+	if (!msh->paths || msh->check_rel)
+		return (0);
 	while (msh->paths[i] != NULL)
 	{
 		if ((temp = opendir(msh->paths[i])) == NULL)
@@ -96,7 +112,7 @@ int					check_exec(t_msh *msh, int i)
 			{
 				if (!ft_strcmp(msh->split[0], dir->d_name))
 				{
-					run_exec(msh, i, temp);
+					run_exec(msh, i);
 					return (1);
 				}
 			}
@@ -109,11 +125,16 @@ int					check_exec(t_msh *msh, int i)
 
 void				minishell(t_msh *msh)
 {
+	DIR				*temp;
+
+	temp = NULL;
 	if (!msh->split[0])
 		return ;
 	if (check_builtins(msh))
 		return ;
-	else if (!check_exec(msh, 0))
+	else if (msh->check_rel)
+		run_exec(msh, 0);
+	else if (!check_exec(msh, 0, temp))
 		ft_printf("minishell: command not found: %s\n", msh->split[0]);
 	else
 		return ;

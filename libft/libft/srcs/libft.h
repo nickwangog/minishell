@@ -103,5 +103,6 @@ int					ft_isalphanumeric(char *s);
 char				**ft_addto2darray(char **old, char *s);
 char				*ft_strctrim(char const *s, const char c);
 char				*ft_strtrimnospace(char const *s);
+void				ft_cleararray(char **s);
 
 #endif

@@ -39,7 +39,7 @@ int			main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	ft_bzero(&msh, sizeof(t_msh));
-	msh.environ = envp;
+	msh.environ = ft_arraydup(envp);
 	while (1)
 	{
 		cwd_name(&msh);
@@ -47,9 +47,12 @@ int			main(int argc, char **argv, char **envp)
 		if ((msh.line = read_input()))
 		{
 			parse_line(&msh);
-			parse_path(&msh);
+			parse_path(&msh, 0, 0);
 			minishell(&msh);
+			msh.check_rel = 0;
 		}
+		ft_cleararray(msh.split);
+		msh.split = NULL;
 	}
 	return (0);
 }

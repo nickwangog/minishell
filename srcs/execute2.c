@@ -42,13 +42,10 @@ void		run_setenv(t_msh *msh)
 
 void		remove_array(t_msh *msh, int i, int j)
 {
-	while (msh->environ[i] != NULL)
+	free(msh->environ[j]);
+	while (msh->environ[j + i] != NULL)
 		i++;
-	while (j < i)
-	{
-		msh->environ[j] = msh->environ[j + 1];
-		j++;
-	}
+	ft_memcpy(&msh->environ[j], &msh->environ[j + 1], i * sizeof(char *));
 }
 
 void		run_unsetenv(t_msh *msh, int i, int j)
@@ -70,4 +67,30 @@ void		run_unsetenv(t_msh *msh, int i, int j)
 		}
 		i++;
 	}
+}
+
+char		*rm_end(t_msh *msh, char *str)
+{
+	int		i;
+	char	*s;
+
+	s = str;
+	i = ft_strlen(s);
+	while (s[i] != '/')
+		i--;
+	s[i] = '\0';
+	msh->i = i;
+	return (s);
+}
+
+int			check_dir(t_msh *msh, char *s)
+{
+	DIR		*dir;
+
+	s = rm_end(msh, s);
+	dir = opendir(s);
+	s[msh->i] = '/';
+	if (dir)
+		return (1);
+	return (0);
 }

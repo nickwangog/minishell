@@ -46,6 +46,9 @@ typedef struct		s_msh
 	char			*var;
 	char			*cwd;
 	char			**dirpath;
+	int				check_rel;
+	char			*relative;
+	int				i;
 }					t_msh;
 
 char				*read_input(void);
@@ -54,10 +57,11 @@ void				parse_line(t_msh *msh);
 void				minishell(t_msh *msh);
 void				run_echo(t_msh *msh);
 void				run_pwd(void);
-void				parse_path(t_msh *msh);
+void				parse_path(t_msh *msh, int i, int j);
 void				run_cd(t_msh *msh);
 void				run_setenv(t_msh *msh);
 void				run_unsetenv(t_msh *msh, int i, int j);
 void				check_var(t_msh *msh, char *var, int i, int j);
+int					check_dir(t_msh *msh, char *s);
 
 #endif
