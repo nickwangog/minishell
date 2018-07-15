@@ -26,7 +26,7 @@ void		cwd_name(t_msh *msh)
 	if (msh->dirpath)
 		ft_cleararray(msh->dirpath);
 	msh->dirpath = NULL;
-	// msh->cwd = NULL;
+	msh->cwd = NULL;
 	msh->cwd = getcwd(msh->cwd, sizeof(msh->cwd));
 	msh->dirpath = ft_strsplit(msh->cwd, '/');
 	ft_strdel(&msh->cwd);
@@ -52,10 +52,9 @@ int			main(int argc, char **argv, char **envp)
 		{
 			parse_line(&msh);
 			parse_path(&msh, 0, 0);
-			// minishell(&msh);
-			// msh.check_rel = 0;
-		}
-		// ft_strdel(&msh.cwd);
+			minishell(&msh);
+			msh.check_rel = 0;
+		}		
 	}
 	return (0);
 }

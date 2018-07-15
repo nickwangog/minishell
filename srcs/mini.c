@@ -129,12 +129,12 @@ void				minishell(t_msh *msh)
 	temp = NULL;
 	if (!msh->split[0])
 		return ;
-	// if (check_builtins(msh))
-	// 	return ;
-	// else if (msh->check_rel)
-	// 	run_exec(msh, 0);
-	// else if (!check_exec(msh, 0, temp))
-	// 	ft_printf("minishell: command not found: %s\n", msh->split[0]);
+	if (check_builtins(msh))
+		return ;
+	else if (msh->check_rel)
+		run_exec(msh, 0);
+	else if (!check_exec(msh, 0, temp))
+		ft_printf("minishell: command not found: %s\n", msh->split[0]);
 	else
 		return ;
 }
