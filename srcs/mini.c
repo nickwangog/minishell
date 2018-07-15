@@ -98,7 +98,6 @@ int					check_exec(t_msh *msh, int i, DIR *temp)
 {
 	struct dirent	*dir;
 
-	temp = NULL;
 	dir = NULL;
 	if (!msh->paths || msh->check_rel)
 		return (0);

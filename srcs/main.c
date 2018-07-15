@@ -23,6 +23,9 @@ void		cwd_name(t_msh *msh)
 	int i;
 
 	i = 0;
+	if (msh->dirpath)
+		ft_cleararray(msh->dirpath);
+	msh->dirpath = NULL;
 	msh->cwd = NULL;
 	msh->cwd = getcwd(msh->cwd, sizeof(msh->cwd));
 	msh->dirpath = ft_strsplit(msh->cwd, '/');
@@ -44,6 +47,7 @@ int			main(int argc, char **argv, char **envp)
 	{
 		cwd_name(&msh);
 		ft_printf(C_CYN"%s "C_BLU"minishell "C_YEL"$> "C_RESET, msh.cwd);
+		ft_strdel(&msh.line);
 		if ((msh.line = read_input()))
 		{
 			parse_line(&msh);
@@ -51,8 +55,6 @@ int			main(int argc, char **argv, char **envp)
 			minishell(&msh);
 			msh.check_rel = 0;
 		}
-		ft_cleararray(msh.split);
-		msh.split = NULL;
 	}
 	return (0);
 }

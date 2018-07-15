@@ -43,7 +43,21 @@ void		parse_path(t_msh *msh, int i, int j)
 
 void		parse_line(t_msh *msh)
 {
+	// int		cnt;
+	// int		i;
+
+	// if (msh->split)
+	// 	ft_cleararray(msh->split);
+	// msh->split = NULL;
 	msh->line = ft_strctrim(msh->line, '\t');
+	// cnt = ft_countwords(msh->line, ' ');
+	// msh->split = (char **)malloc(sizeof(char *) * cnt);
+	// i = 0;
+	// while (i < cnt)
+	// {
+	// 	msh->split[i] = (char *)malloc(sizeof(char) * 100);
+	// 	i++;
+	// }
 	msh->split = ft_strsplit(msh->line, ' ');
 }
 
