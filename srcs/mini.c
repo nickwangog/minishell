@@ -72,8 +72,8 @@ void				run_exec(t_msh *msh, int i)
 
 	if (msh->paths != NULL && msh->check_rel == 0)
 	{
-		msh->executable = ft_strcat(msh->paths[i], "/");
-		msh->executable = ft_strcat(msh->executable, msh->split[0]);
+		msh->executable = ft_strjoin(msh->paths[i], "/");
+		msh->executable = ft_strfjoin(&msh->executable, msh->split[0]);
 	}
 	else if (msh->check_rel)
 		msh->executable = msh->relative;
@@ -112,6 +112,7 @@ int					check_exec(t_msh *msh, int i, DIR *temp)
 				if (!ft_strcmp(msh->split[0], dir->d_name))
 				{
 					run_exec(msh, i);
+					closedir(temp);
 					return (1);
 				}
 			}
@@ -127,7 +128,7 @@ void				minishell(t_msh *msh)
 	DIR				*temp;
 
 	temp = NULL;
-	if (!msh->split[0])
+	if (!msh->split || !msh->split[0])
 		return ;
 	if (check_builtins(msh))
 		return ;

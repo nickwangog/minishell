@@ -36,6 +36,7 @@ void		run_pwd(void)
 	temp = NULL;
 	temp = getcwd(temp, sizeof(temp));
 	ft_printf("%s\n", temp);
+	free(temp);
 }
 
 void		run_cd(t_msh *msh)

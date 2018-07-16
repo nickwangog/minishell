@@ -75,4 +75,5 @@ char		*read_input(void)
 			buf[i] = c;
 		i++;
 	}
+	return (0);
 }

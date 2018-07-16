@@ -25,4 +25,5 @@ void		ft_cleararray(char **s)
 		s[i] = NULL;
 		i++;
 	}
+	free(s);
 }

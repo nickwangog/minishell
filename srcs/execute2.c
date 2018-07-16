@@ -14,6 +14,9 @@
 
 void		run_setenv(t_msh *msh)
 {
+	char **temp;
+
+	temp = NULL;
 	if (!msh->split[1])
 	{
 		ft_print2darray(msh->environ);
@@ -33,9 +36,12 @@ void		run_setenv(t_msh *msh)
 		}
 		else
 		{
-			msh->var = ft_strcat(msh->split[1], "=");
-			msh->var = ft_strcat(msh->var, msh->split[2]);
-			msh->environ = ft_addto2darray(msh->environ, msh->var);
+			msh->var = ft_strjoin(msh->split[1], "=");
+			msh->var = ft_strfjoin(&msh->var, msh->split[2]);
+			temp = ft_addto2darray(msh->environ, msh->var);
+			if (msh->environ)
+				ft_cleararray(msh->environ);
+			msh->environ = temp;
 		}
 	}
 }

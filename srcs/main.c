@@ -27,7 +27,7 @@ void		cwd_name(t_msh *msh)
 		ft_cleararray(msh->dirpath);
 	msh->dirpath = NULL;
 	msh->cwd = NULL;
-	msh->cwd = getcwd(msh->cwd, sizeof(msh->cwd));
+	msh->cwd = getcwd(msh->cwd, 0);
 	msh->dirpath = ft_strsplit(msh->cwd, '/');
 	ft_strdel(&msh->cwd);
 	while (msh->dirpath[i] != NULL)
@@ -54,7 +54,12 @@ int			main(int argc, char **argv, char **envp)
 			parse_path(&msh, 0, 0);
 			minishell(&msh);
 			msh.check_rel = 0;
-		}		
+		}
+		if (msh.split)
+			ft_cleararray(msh.split);
+		msh.split = NULL;
+		//ft_strdel(&msh.executable);
+	//	free(msh.line);
 	}
 	return (0);
 }

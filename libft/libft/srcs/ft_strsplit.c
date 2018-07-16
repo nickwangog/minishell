@@ -12,61 +12,79 @@
 
 #include "libft.h"
 
-static int		ft_cnt_parts(const char *s, char c)
+static int	n_words(const char *s, char c)
 {
-	int		cnt;
-	int		in_substring;
+	int	i;
+	int	count;
 
-	in_substring = 0;
-	cnt = 0;
-	while (*s != '\0')
+	if (!s)
+		return (0);
+	if (s[0] && c == '\0')
+		return (1);
+	i = 0;
+	count = 0;
+	while (s[i])
 	{
-		if (in_substring == 1 && *s == c)
-			in_substring = 0;
-		if (in_substring == 0 && *s != c)
+		if (s[i] != c)
 		{
-			in_substring = 1;
-			cnt++;
+			++count;
+			while (s[i] && s[i] != c)
+				++i;
 		}
-		s++;
+		while (s[i] == c)
+			++i;
 	}
-	return (cnt);
+	return (count);
 }
 
-static int		ft_wlen(const char *s, char c)
+static char	**set_initial_strsplit(const char *s, char c, int *num, int *i)
 {
-	int		len;
+	char	**new;
 
-	len = 0;
-	while (*s != c && *s != '\0')
-	{
-		len++;
-		s++;
-	}
-	return (len);
-}
-
-char			**ft_strsplit(char const *s, char c)
-{
-	char	**t;
-	int		nb_word;
-	int		index;
-
-	index = 0;
-	nb_word = ft_cnt_parts((const char *)s, c);
-	t = (char **)malloc(sizeof(*t) * (ft_cnt_parts((const char *)s, c) + 1));
-	if (t == NULL)
+	if (!s || !(*num = n_words(s, c)))
 		return (NULL);
-	while (nb_word--)
+	if (!(new = (char **)malloc(sizeof(char *) * (*num + 1))))
+		return (NULL);
+	*i = 0;
+	return (new);
+}
+
+static void	*free_strsplit(char **new, int k)
+{
+	while (k > -1)
 	{
-		while (*s == c && *s != '\0')
-			s++;
-		t[index] = ft_strsub((const char *)s, 0, ft_wlen((const char *)s, c));
-		if (t[index] == NULL)
-			return (NULL);
-		s = s + ft_wlen(s, c);
-		index++;
+		free(new[k]);
+		new[k--] = NULL;
 	}
-	t[index] = NULL;
-	return (t);
+	free(new);
+	return (NULL);
+}
+
+char		**ft_strsplit(const char *s, char c)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	**new;
+	int		num_of_words;
+
+	if (!(new = set_initial_strsplit(s, c, &num_of_words, &i)))
+		return (NULL);
+	k = -1;
+	while (s[i] && !(j = 0))
+	{
+		while ((s[i] && s[i] == c) || (s[i + j] && s[i + j] != c))
+			s[i] == c ? ++i : ++j;
+		if (j)
+		{
+			if (!(new[++k] = (char *)malloc(sizeof(char) * (j + 1))))
+				return (free_strsplit(new, k));
+			new[k][j] = '\0';
+		}
+		else
+			new[++k] = NULL;
+		ft_strncpy(new[k], &s[i], j);
+		i += j;
+	}
+	return (!(new[n_words(s, c)] = NULL) ? new : new);
 }
