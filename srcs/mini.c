@@ -72,11 +72,17 @@ void				run_exec(t_msh *msh, int i)
 
 	if (msh->paths != NULL && msh->check_rel == 0)
 	{
+		// if (msh->executable != NULL)
+		// 	free(msh->executable);
 		msh->executable = ft_strjoin(msh->paths[i], "/");
 		msh->executable = ft_strfjoin(&msh->executable, msh->split[0]);
 	}
 	else if (msh->check_rel)
+	{
+		// if (msh->executable != NULL)
+		// 	free(msh->executable);
 		msh->executable = msh->relative;
+	}
 	else
 		return ;
 	child = fork();

@@ -59,7 +59,7 @@ int			main(int argc, char **argv, char **envp)
 			ft_cleararray(msh.split);
 		msh.split = NULL;
 		//ft_strdel(&msh.executable);
-	//	free(msh.line);
+		free(msh.line);
 	}
 	return (0);
 }
