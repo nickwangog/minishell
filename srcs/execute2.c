@@ -97,6 +97,10 @@ int			check_dir(t_msh *msh, char *s)
 	dir = opendir(s);
 	s[msh->i] = '/';
 	if (dir)
+	{
+		closedir(dir);
 		return (1);
+	}
+	closedir(dir);
 	return (0);
 }

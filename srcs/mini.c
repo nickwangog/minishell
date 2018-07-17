@@ -70,6 +70,7 @@ void				run_exec(t_msh *msh, int i)
 	int			status;
 	pid_t		child;
 
+	free(msh->executable);
 	if (msh->paths != NULL && msh->check_rel == 0)
 	{
 		// if (msh->executable != NULL)
@@ -81,7 +82,7 @@ void				run_exec(t_msh *msh, int i)
 	{
 		// if (msh->executable != NULL)
 		// 	free(msh->executable);
-		msh->executable = msh->relative;
+		msh->executable = ft_strdup(msh->relative);
 	}
 	else
 		return ;
